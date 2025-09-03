@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  yemek-mcp:
+    build: .
+    container_name: yemek-mcp-server
+    restart: unless-stopped
+    environment:
+      - PYTHONUNBUFFERED=1
+    # Uncomment the following lines if you need to connect to a local API
+    # network_mode: "host"  # Use host networking to access localhost:5000
+    # Or use a custom network:
+    # networks:
+    #   - mcp-network
+    volumes:
+      # Mount logs directory for debugging
+      - ./logs:/app/logs
+    # Health check (optional)
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:5000/api/menu', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# Uncomment if using custom network
+# networks:
+#   mcp-network:
+#     driver: bridge
