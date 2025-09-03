@@ -1,4 +1,4 @@
-# Yemek MCP Server
+# Food MCP Server
 
 A Model Context Protocol (MCP) server that provides restaurant menu information through a simple API interface.
 
@@ -36,9 +36,9 @@ docker-compose ps
    ```json
    {
      "mcpServers": {
-       "yemek-mcp": {
+       "food-mcp": {
          "command": "docker",
-         "args": ["exec", "-i", "yemek-mcp-server", "python", "main.py"],
+         "args": ["exec", "-i", "food-mcp-server", "python", "main.py"],
          "env": {}
        }
      }
@@ -68,7 +68,7 @@ docker-compose ps
 ## Project Structure
 
 ```
-yemekMCP/
+foodMCP/
 ├── main.py                 # MCP server implementation
 ├── pyproject.toml          # Python dependencies
 ├── Dockerfile              # Docker configuration
