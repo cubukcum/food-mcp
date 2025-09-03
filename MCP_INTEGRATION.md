@@ -1,6 +1,6 @@
 # MCP Server Integration Guide
 
-This guide explains how to integrate your dockerized Yemek MCP server with various MCP-compatible applications.
+This guide explains how to integrate your dockerized Food MCP server with various MCP-compatible applications.
 
 ## Prerequisites
 
@@ -33,12 +33,12 @@ Claude Desktop is the easiest way to test your MCP server.
    ```json
    {
      "mcpServers": {
-       "yemek-mcp": {
+       "food-mcp": {
          "command": "docker",
          "args": [
            "exec",
            "-i",
-           "yemek-mcp-server",
+           "food-mcp-server",
            "python",
            "main.py"
          ],
@@ -65,16 +65,16 @@ OpenWebUI supports MCP servers through configuration.
    ```yaml
    # In your OpenWebUI config or environment
    MCP_SERVERS: |
-     yemek-mcp:
+     food-mcp:
        command: docker
-       args: ["exec", "-i", "yemek-mcp-server", "python", "main.py"]
+       args: ["exec", "-i", "food-mcp-server", "python", "main.py"]
        env: {}
    ```
 
 2. **Alternative: Direct Python execution:**
    ```yaml
    MCP_SERVERS: |
-     yemek-mcp:
+     food-mcp:
        command: python
        args: ["/path/to/your/project/main.py"]
        env:
@@ -95,9 +95,9 @@ Cline is a VS Code extension that supports MCP servers.
    ```json
    {
      "cline.mcpServers": {
-       "yemek-mcp": {
+       "food-mcp": {
          "command": "docker",
-         "args": ["exec", "-i", "yemek-mcp-server", "python", "main.py"],
+         "args": ["exec", "-i", "food-mcp-server", "python", "main.py"],
          "env": {}
        }
      }
@@ -117,7 +117,7 @@ Use MCP Inspector to test your server directly.
 
 2. **Run the inspector:**
    ```bash
-   mcp-inspector docker exec -i yemek-mcp-server python main.py
+   mcp-inspector docker exec -i food-mcp-server python main.py
    ```
 
 3. **Test your tools in the web interface**
@@ -137,7 +137,7 @@ async def main():
     # Connect to your MCP server
     server_params = StdioServerParameters(
         command="docker",
-        args=["exec", "-i", "yemek-mcp-server", "python", "main.py"]
+        args=["exec", "-i", "food-mcp-server", "python", "main.py"]
     )
     
     async with stdio_client(server_params) as (read, write):
@@ -200,7 +200,7 @@ If your API is not on localhost, update the connection:
 
 ```bash
 # Test if your MCP server is responding
-docker exec yemek-mcp-server python -c "
+docker exec food-mcp-server python -c "
 import requests
 try:
     response = requests.get('http://localhost:5000/api/menu')
@@ -216,7 +216,7 @@ except Exception as e:
 ```bash
 # Test MCP protocol directly
 echo '{"jsonrpc": "2.0", "id": 1, "method": "tools/list"}' | \
-docker exec -i yemek-mcp-server python main.py
+docker exec -i food-mcp-server python main.py
 ```
 
 ### 3. Integration Test with Claude Desktop
@@ -233,7 +233,7 @@ docker exec -i yemek-mcp-server python main.py
 
 1. **"MCP server not found"**
    - Ensure Docker container is running: `docker-compose ps`
-   - Check container logs: `docker-compose logs yemek-mcp`
+   - Check container logs: `docker-compose logs food-mcp`
 
 2. **"Connection refused to localhost:5000"**
    - Ensure your restaurant API is running
@@ -256,16 +256,16 @@ docker exec -i yemek-mcp-server python main.py
 docker-compose ps
 
 # View container logs
-docker-compose logs -f yemek-mcp
+docker-compose logs -f food-mcp
 
 # Access container shell
-docker-compose exec yemek-mcp bash
+docker-compose exec food-mcp bash
 
 # Test MCP server directly
-docker exec yemek-mcp-server python main.py
+docker exec food-mcp-server python main.py
 
 # Check if API is accessible from container
-docker exec yemek-mcp-server curl http://localhost:5000/api/menu
+docker exec food-mcp-server curl http://localhost:5000/api/menu
 ```
 
 ## Advanced Configuration
@@ -276,7 +276,7 @@ You can run multiple MCP servers by creating additional services in docker-compo
 
 ```yaml
 services:
-  yemek-mcp:
+  food-mcp:
     # ... existing config
   
   another-mcp:
