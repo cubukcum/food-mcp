@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  yemek-mcp:
+  food-mcp:
     build: .
-    container_name: yemek-mcp-server
+    container_name: food-mcp-server
     restart: unless-stopped
     environment:
       - PYTHONUNBUFFERED=1
