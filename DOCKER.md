@@ -1,6 +1,6 @@
-# Docker Setup for Yemek MCP Server
+# Docker Setup for Food MCP Server
 
-This document explains how to dockerize and run the Yemek MCP server.
+This document explains how to dockerize and run the Food MCP server.
 
 ## Files Created
 
@@ -32,17 +32,17 @@ This document explains how to dockerize and run the Yemek MCP server.
 
 1. **Build the image:**
    ```bash
-   docker build -t yemek-mcp .
+   docker build -t food-mcp .
    ```
 
 2. **Run the container:**
    ```bash
-   docker run --name yemek-mcp-server yemek-mcp
+   docker run --name food-mcp-server food-mcp
    ```
 
 3. **Run in detached mode:**
    ```bash
-   docker run -d --name yemek-mcp-server yemek-mcp
+   docker run -d --name food-mcp-server food-mcp
    ```
 
 ## Configuration
@@ -85,13 +85,13 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 ### Viewing Logs
 
 ```bash
-docker-compose logs -f yemek-mcp
+docker-compose logs -f food-mcp
 ```
 
 ### Accessing the Container
 
 ```bash
-docker-compose exec yemek-mcp bash
+docker-compose exec food-mcp bash
 ```
 
 ## Troubleshooting
@@ -120,12 +120,12 @@ docker-compose exec yemek-mcp bash
 
 2. **View container logs:**
    ```bash
-   docker-compose logs yemek-mcp
+   docker-compose logs food-mcp
    ```
 
 3. **Access container shell:**
    ```bash
-   docker-compose exec yemek-mcp bash
+   docker-compose exec food-mcp bash
    ```
 
 ## Security Notes
