@@ -5,7 +5,7 @@
       "args": [
         "exec",
         "-i",
-        "yemek-mcp-server",
+        "food-mcp-server",
         "python",
         "main.py"
       ],
