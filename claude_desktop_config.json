@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "yemek-mcp": {
+      "command": "docker",
+      "args": [
+        "exec",
+        "-i",
+        "yemek-mcp-server",
+        "python",
+        "main.py"
+      ],
+      "env": {}
+    }
+  }
+}

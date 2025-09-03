@@ -1,0 +1,20 @@
+# OpenWebUI MCP Server Configuration
+# Add this to your OpenWebUI environment variables or config
+
+# Method 1: Using Docker (Recommended)
+MCP_SERVERS: |
+  yemek-mcp:
+    command: docker
+    args: ["exec", "-i", "yemek-mcp-server", "python", "main.py"]
+    env: {}
+
+# Method 2: Direct Python execution (if not using Docker)
+# MCP_SERVERS: |
+#   yemek-mcp:
+#     command: python
+#     args: ["/path/to/your/project/main.py"]
+#     env:
+#       PYTHONPATH: "/path/to/your/project"
+
+# Alternative: Environment variable format
+# MCP_SERVERS='{"yemek-mcp": {"command": "docker", "args": ["exec", "-i", "yemek-mcp-server", "python", "main.py"], "env": {}}}'
