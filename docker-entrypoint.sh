@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "Starting Yemek MCP Server..."
+echo "Starting Food MCP Server..."
 
 # Activate the virtual environment created by uv
 source .venv/bin/activate
