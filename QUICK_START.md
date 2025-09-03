@@ -1,6 +1,6 @@
 # Quick Start Guide - Using Your MCP Server
 
-This guide will get you up and running with your Yemek MCP server in just a few minutes.
+This guide will get you up and running with your food MCP server in just a few minutes.
 
 ## Prerequisites
 
@@ -30,12 +30,12 @@ docker-compose ps
    ```json
    {
      "mcpServers": {
-       "yemek-mcp": {
+       "food-mcp": {
          "command": "docker",
          "args": [
            "exec",
            "-i",
-           "yemek-mcp-server",
+           "food-mcp-server",
            "python",
            "main.py"
          ],
@@ -57,7 +57,7 @@ docker-compose ps
 
 1. **Set environment variable:**
    ```bash
-   export MCP_SERVERS='{"yemek-mcp": {"command": "docker", "args": ["exec", "-i", "yemek-mcp-server", "python", "main.py"], "env": {}}}'
+   export MCP_SERVERS='{"food-mcp": {"command": "docker", "args": ["exec", "-i", "food-mcp-server", "python", "main.py"], "env": {}}}'
    ```
 
 2. **Restart OpenWebUI**
@@ -85,7 +85,7 @@ docker-compose ps
 
 ### View Logs
 ```bash
-docker-compose logs -f yemek-mcp
+docker-compose logs -f food-mcp
 ```
 
 ### Test API Connection
@@ -97,7 +97,7 @@ curl http://localhost:5000/api/menu
 ### Test MCP Server Directly
 ```bash
 # Test the MCP server
-docker exec yemek-mcp-server python main.py
+docker exec food-mcp-server python main.py
 ```
 
 ## Troubleshooting
@@ -105,7 +105,7 @@ docker exec yemek-mcp-server python main.py
 ### "Container not found"
 ```bash
 # Make sure you're in the right directory
-cd /path/to/your/yemekMCP
+cd /path/to/your/foodMCP
 
 # Start the container
 docker-compose up -d
@@ -148,12 +148,12 @@ docker-compose restart
 docker-compose up -d --build
 
 # Access container shell
-docker-compose exec yemek-mcp bash
+docker-compose exec food-mcp bash
 ```
 
 ## Need Help?
 
-- Check the logs: `docker-compose logs yemek-mcp`
+- Check the logs: `docker-compose logs food-mcp`
 - Test the API: `curl http://localhost:5000/api/menu`
 - Run the test client: `python test_mcp_client.py`
 - Read the full documentation in `MCP_INTEGRATION.md`
