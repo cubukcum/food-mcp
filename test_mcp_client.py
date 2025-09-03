@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test client for the Yemek MCP Server
+Test client for the food MCP Server
 This script demonstrates how to connect to and use your MCP server programmatically.
 """
 
@@ -19,15 +19,15 @@ except ImportError:
     sys.exit(1)
 
 
-class YemekMCPClient:
-    """Client for interacting with the Yemek MCP Server"""
+class foodMCPClient:
+    """Client for interacting with the food MCP Server"""
     
     def __init__(self, use_docker: bool = True):
         self.use_docker = use_docker
         if use_docker:
             self.server_params = StdioServerParameters(
                 command="docker",
-                args=["exec", "-i", "yemek-mcp-server", "python", "main.py"]
+                args=["exec", "-i", "food-mcp-server", "python", "main.py"]
             )
         else:
             # Direct Python execution (adjust path as needed)
@@ -41,13 +41,13 @@ class YemekMCPClient:
         self.read, self.write = await stdio_client(self.server_params)
         self.session = ClientSession(self.read, self.write)
         await self.session.initialize()
-        print("✅ Connected to Yemek MCP Server")
+        print("✅ Connected to food MCP Server")
     
     async def disconnect(self):
         """Disconnect from the MCP server"""
         if hasattr(self, 'session'):
             await self.session.close()
-        print("✅ Disconnected from Yemek MCP Server")
+        print("✅ Disconnected from food MCP Server")
     
     async def list_tools(self) -> Dict[str, Any]:
         """List available tools"""
@@ -80,17 +80,17 @@ class YemekMCPClient:
 
 async def main():
     """Main test function"""
-    print("🚀 Starting Yemek MCP Server Test")
+    print("🚀 Starting food MCP Server Test")
     print("=" * 50)
     
     # Check if Docker container is running
     try:
         result = subprocess.run(
-            ["docker", "ps", "--filter", "name=yemek-mcp-server", "--format", "{{.Names}}"],
+            ["docker", "ps", "--filter", "name=food-mcp-server", "--format", "{{.Names}}"],
             capture_output=True, text=True, check=True
         )
-        if "yemek-mcp-server" not in result.stdout:
-            print("❌ Docker container 'yemek-mcp-server' is not running")
+        if "food-mcp-server" not in result.stdout:
+            print("❌ Docker container 'food-mcp-server' is not running")
             print("   Start it with: docker-compose up -d")
             return
         print("✅ Docker container is running")
@@ -99,7 +99,7 @@ async def main():
         return
     
     # Create and test the client
-    client = YemekMCPClient(use_docker=True)
+    client = foodMCPClient(use_docker=True)
     
     try:
         # Connect to the server
