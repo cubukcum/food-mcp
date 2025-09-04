@@ -9,7 +9,6 @@ services:
       - "8001:8001"  # Expose MCPO HTTP endpoints
     environment:
       - PYTHONUNBUFFERED=1
-      - MCPO_MODE=true
     # Uncomment the following lines if you need to connect to a local API
     # network_mode: "host"  # Use host networking to access localhost:5000
     # Or use a custom network:

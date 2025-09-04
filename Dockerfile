@@ -18,15 +18,15 @@ RUN pip install uv
 # Install dependencies using uv
 RUN uv sync --frozen
 
-# Copy application code
-COPY main.py ./
+# Copy application code and configuration
+COPY main.py config.json ./
 
 # Create a non-root user for security
 RUN useradd --create-home --shell /bin/bash app && chown -R app:app /app
 USER app
 
-# Expose port (MCP servers typically don't need exposed ports, but useful for debugging)
-EXPOSE 8000
+# Expose port for MCPO HTTP endpoints
+EXPOSE 8001
 
 # Set environment variables
 ENV PYTHONPATH=/app

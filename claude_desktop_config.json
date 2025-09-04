@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "yemek-mcp": {
+    "food-mcp": {
       "command": "docker",
       "args": [
         "exec",
