@@ -116,16 +116,6 @@ docker rmi food-mcp
 docker image prune
 ```
 
-## Health Check
-
-The container includes a built-in health check that verifies the MCP server is responding:
-
-```bash
-# Check container health
-docker ps
-
-# View health check logs
-docker inspect food-mcp-server | grep -A 10 Health
 ```
 
 ## Production Deployment
@@ -206,16 +196,6 @@ docker run -d \
   -p 8001:8001 \
   -v $(pwd)/main.py:/app/main.py \
   food-mcp
-```
-
-### Testing
-
-```bash
-# Test the MCP server
-curl http://localhost:8001/health
-
-# Test with MCP client
-# (Use your preferred MCP client to connect to localhost:8001)
 ```
 
 ## Cleanup
