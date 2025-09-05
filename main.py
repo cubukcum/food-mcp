@@ -3,7 +3,7 @@ import requests
 import os
 
 # Get configuration from environment variables
-MCP_HOST = os.getenv("MCP_HOST", "127.0.0.1")
+MCP_HOST = os.getenv("MCP_HOST", "0.0.0.0")
 MCP_PORT = int(os.getenv("MCP_PORT", "8001"))
 
 # Create an MCP server

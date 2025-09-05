@@ -8,7 +8,7 @@ menu_data = {
     "day": "Wednesday",
     "total_calories": 1472,
     "items": [
-        {"name": "Vegetable soup", "calories": 125},
+        {"name": "Lentil soup", "calories": 125},
         {"name": "Chicken", "calories": 277},
         {"name": "Eggplant", "calories": 235},
         {"name": "Rice", "calories": 328},
