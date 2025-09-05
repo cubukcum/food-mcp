@@ -2,7 +2,7 @@ from mcp.server.fastmcp import FastMCP
 import requests
 
 # Create an MCP server
-mcp = FastMCP("Menu MCP")
+mcp = FastMCP("Menu MCP", host="127.0.0.1", port=8001)
 
 @mcp.tool()
 def get_menu():
@@ -17,5 +17,5 @@ def get_menu():
         return {"error": str(e)}
 
 if __name__ == "__main__":
-    print("Menu MCP is running")
-    mcp.run()
+    print("Menu MCP is running on port 8001")
+    mcp.run(transport="streamable-http")
