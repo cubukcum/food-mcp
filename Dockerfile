@@ -19,18 +19,19 @@ RUN pip install uv
 RUN uv sync --frozen
 
 # Copy application code and configuration
-COPY main.py config.json ./
+COPY main.py ./
 
 # Create a non-root user for security
 RUN useradd --create-home --shell /bin/bash app && chown -R app:app /app
 USER app
 
-# Expose port for MCPO HTTP endpoints
+# Expose port for MCP server HTTP endpoints
 EXPOSE 8001
 
 # Set environment variables
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
+ENV API_URL=http://localhost:5000
 
 # Create entrypoint script
 COPY --chown=app:app docker-entrypoint.sh ./

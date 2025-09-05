@@ -3,30 +3,10 @@ version: '3.8'
 services:
   food-mcp:
     build: .
-    container_name: food-mcp-server
-    restart: unless-stopped
     ports:
-      - "8001:8001"  # Expose MCPO HTTP endpoints
+      - "8001:8001"
     environment:
-      - PYTHONUNBUFFERED=1
-      - MCPO_MODE=true
-    # Uncomment the following lines if you need to connect to a local API
-    # network_mode: "host"  # Use host networking to access localhost:5000
-    # Or use a custom network:
-    # networks:
-    #   - mcp-network
+      - API_URL=http://localhost:5000
     volumes:
-      # Mount logs directory for debugging
       - ./logs:/app/logs
-    # Health check for HTTP endpoints
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-
-# Uncomment if using custom network
-# networks:
-#   mcp-network:
-#     driver: bridge
+    restart: unless-stopped
