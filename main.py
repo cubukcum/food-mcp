@@ -1,8 +1,13 @@
 from mcp.server.fastmcp import FastMCP
 import requests
+import os
+
+# Get configuration from environment variables
+MCP_HOST = os.getenv("MCP_HOST", "127.0.0.1")
+MCP_PORT = int(os.getenv("MCP_PORT", "8001"))
 
 # Create an MCP server
-mcp = FastMCP("Menu MCP", host="127.0.0.1", port=8001)
+mcp = FastMCP("Menu MCP", host=MCP_HOST, port=MCP_PORT)
 
 @mcp.tool()
 def get_menu():
@@ -17,5 +22,5 @@ def get_menu():
         return {"error": str(e)}
 
 if __name__ == "__main__":
-    print("Menu MCP is running on port 8001")
+    print(f"Menu MCP is running on {MCP_HOST}:{MCP_PORT}")
     mcp.run(transport="streamable-http")
