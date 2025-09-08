@@ -3,39 +3,39 @@ import requests
 import os
 import json
 
-# Get configuration from environment variables
+# Ortam değişkenlerinden yapılandırma al
 MCP_HOST = os.getenv("MCP_HOST", "0.0.0.0")
 MCP_PORT = int(os.getenv("MCP_PORT", "8001"))
 JWT_TOKEN_URL = os.getenv("JWT_TOKEN_URL", "http://localhost:5000/auth/token")
 MENU_API_URL = os.getenv("MENU_API_URL", "http://localhost:5000/api/menu")
 
-# Create an MCP server
+# MCP sunucusu oluştur
 mcp = FastMCP("Menu MCP", host=MCP_HOST, port=MCP_PORT)
 
-def get_jwt_token():
+def jwt_token_al():
     """
-    Get JWT token from the authentication endpoint.
-    Returns the token string or None if failed.
+    Kimlik doğrulama endpoint'inden JWT token al.
+    Başarılı olursa token string'ini, başarısız olursa None döndürür.
     """
     try:
-        # You may need to adjust this based on your API requirements
-        # Some APIs require credentials in the request body or headers
+        # API gereksinimlerinize göre bunu ayarlamanız gerekebilir
+        # Bazı API'ler istek gövdesinde veya başlıklarında kimlik bilgileri gerektirir
         response = requests.post(JWT_TOKEN_URL)
         response.raise_for_status()
         
-        # Assuming the response contains a 'token' field
-        # Adjust this based on your API's response format
+        # Yanıtın 'token' alanı içerdiğini varsayıyoruz
+        # API'nizin yanıt formatına göre bunu ayarlayın
         token_data = response.json()
         return token_data.get('token') or token_data.get('access_token')
         
     except requests.exceptions.RequestException as e:
-        print(f"Error getting JWT token: {e}")
+        print(f"JWT token alınırken hata: {e}")
         return None
 
-def get_menu_with_token(token):
+def token_ile_menu_al(token):
     """
-    Get menu using the JWT token.
-    Returns the menu data or None if failed.
+    JWT token kullanarak menüyü al.
+    Başarılı olursa menü verilerini, başarısız olursa None döndürür.
     """
     try:
         headers = {
@@ -48,27 +48,27 @@ def get_menu_with_token(token):
         return response.json()
         
     except requests.exceptions.RequestException as e:
-        print(f"Error getting menu with token: {e}")
+        print(f"Token ile menü alınırken hata: {e}")
         return None
 
 @mcp.tool()
-def get_menu():
+def menu_al():
     """
-    Fetch the restaurant menu using JWT authentication.
-    First gets a JWT token, then uses it to fetch the menu.
+    JWT kimlik doğrulama kullanarak restoran menüsünü getir.
+    Önce JWT token alır, sonra menüyü getirmek için kullanır.
     """
-    # Step 1: Get JWT token
-    token = get_jwt_token()
+    # Adım 1: JWT token al
+    token = jwt_token_al()
     if not token:
-        return {"error": "Failed to obtain JWT token"}
+        return {"error": "JWT token alınamadı"}
     
-    # Step 2: Get menu using the token
-    menu_data = get_menu_with_token(token)
+    # Adım 2: Token kullanarak menüyü al
+    menu_data = token_ile_menu_al(token)
     if menu_data is None:
-        return {"error": "Failed to fetch menu with JWT token"}
+        return {"error": "JWT token ile menü getirilemedi"}
     
     return menu_data
 
 if __name__ == "__main__":
-    print(f"Menu MCP is running on {MCP_HOST}:{MCP_PORT}")
+    print(f"Menü MCP {MCP_HOST}:{MCP_PORT} adresinde çalışıyor")
     mcp.run(transport="streamable-http")
