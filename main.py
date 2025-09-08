@@ -43,7 +43,7 @@ def token_ile_menu_al(token):
             'Content-Type': 'application/json'
         }
         
-        response = requests.get(MENU_API_URL, headers=headers)
+        response = requests.get(MENU_API_URL, headers=headers, verify=False)
         response.raise_for_status()
         return response.json()
         
