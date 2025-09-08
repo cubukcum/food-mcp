@@ -1,41 +1,39 @@
-# Use Python 3.12 slim image for smaller size
+# syntax=docker/dockerfile:1
 FROM python:3.12-slim
 
-# Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1
+    PIP_NO_CACHE_DIR=1
 
-# Set work directory
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
+# Sistem bağımlılıkları (CA sertifikaları vs.)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates curl && \
+    rm -rf /var/lib/apt/lists/*
 
-# Copy dependency files
-COPY pyproject.toml uv.lock ./
+# Proje dosyaları: pyproject önce (cache için), sonra kaynaklar
+COPY pyproject.toml ./
+# (Varsa) kilit dosyanızı da kopyalayın ki layer cache iyi çalışsın:
+# COPY poetry.lock ./      # Poetry kullanıyorsanız
+# COPY pdm.lock ./         # PDM kullanıyorsanız
 
-# Install Python dependencies using uv for faster builds
-RUN pip install uv && \
-    uv pip install --system --no-cache -r pyproject.toml
+# Kaynak kod
+COPY . .
 
-# Copy application code
-COPY main.py ./
+# Bağımlılıklar + paket kurulumu (PEP 517 üzerinden)
+RUN python -m pip install --upgrade pip
+RUN pip install --no-cache-dir .
 
-# Create non-root user for security
-RUN useradd --create-home --shell /bin/bash app && \
-    chown -R app:app /app
-USER app
+# Non-root kullanıcı
+RUN useradd -m appuser && chown -R appuser:appuser /app
+USER appuser
 
-# Expose the port
-EXPOSE 8001
-
-# Set default environment variables
+# Varsayılan ortam değişkenleri
 ENV MCP_HOST=0.0.0.0 \
     MCP_PORT=8001
 
-# Run the application
-CMD ["python", "main.py"]
+EXPOSE 8001
+
+# Uygulamayı başlat
+CMD ["python", "-u", "main.py"]
