@@ -18,15 +18,22 @@ def jwt_token_al():
     Başarılı olursa token string'ini, başarısız olursa None döndürür.
     """
     try:
+        headers = {"accept": "*/*"}
         # API gereksinimlerinize göre bunu ayarlamanız gerekebilir
         # Bazı API'ler istek gövdesinde veya başlıklarında kimlik bilgileri gerektirir
-        response = requests.post(JWT_TOKEN_URL)
+        response = requests.post(JWT_TOKEN_URL, headers=headers, data='',verify=False)
         response.raise_for_status()
         
-        # Yanıtın 'token' alanı içerdiğini varsayıyoruz
-        # API'nizin yanıt formatına göre bunu ayarlayın
-        token_data = response.json()
-        return token_data.get('token') or token_data.get('access_token')
+        # API doğrudan JWT token string'ini döndürüyor (JSON değil)
+        # Content-Type text/plain olduğu için response.text kullanıyoruz
+        token = response.text.strip()
+        
+        # Token'ın geçerli bir JWT formatında olduğunu kontrol et
+        if token and len(token.split('.')) == 3:
+            return token
+        else:
+            print(f"Geçersiz JWT token formatı: {token[:50]}...")
+            return None
         
     except requests.exceptions.RequestException as e:
         print(f"JWT token alınırken hata: {e}")
